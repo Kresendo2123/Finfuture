@@ -5,7 +5,7 @@ from db import get_db
 from typing import List
 from orm import CoinSchema, CoinPriceSchema, CoinPredictionSchema
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.log_config import logger  # 🔹 log sistemi eklendi
 
 app = FastAPI()
 app.add_middleware(
@@ -21,8 +21,10 @@ app.add_middleware(
 def get_coins(db: Session = Depends(get_db)):
     try:
         coins = db.query(Coin).all()
+        logger.info("Tüm coin bilgileri başarıyla getirildi.")
         return coins
     except Exception as e:
+        logger.error(f"/coins endpointinde hata: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -40,22 +42,11 @@ def get_prices_by_coin(
             .limit(limit)
             .all()
         )
-
+        logger.info(f"/prices/{coin_id} endpointi başarıyla çalıştı, {len(prices)} kayıt çekildi.")
         return list(reversed(prices))
-    except:
-        raise HTTPException(status_code=500, detail="Veri çekilemedi")
-
-
-@app.post("/predictions")
-def add_prediction(pred: CoinPredictionSchema, db: Session = Depends(get_db)):
-    try:
-        prediction = CoinPrediction(**pred.dict())
-        db.add(prediction)
-        db.commit()
-        db.refresh(prediction)
-        return {"status": "ok", "id": prediction.id}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"/prices/{coin_id} endpointinde hata: {e}")
+        raise HTTPException(status_code=500, detail="Veri çekilemedi")
 
 
 @app.get("/predictions/{coin_id}", response_model=List[CoinPredictionSchema])
@@ -72,6 +63,8 @@ def get_predictions(
             .limit(limit)
             .all()
         )
-        return list(reversed(preds))  # eski → yeni sıralı
+        logger.info(f"/predictions/{coin_id} çağrıldı, {len(preds)} kayıt getirildi.")
+        return list(reversed(preds))
     except Exception as e:
+        logger.error(f"/predictions/{coin_id} endpointinde hata: {e}")
         raise HTTPException(status_code=500, detail=str(e))
