@@ -1,6 +1,5 @@
 # test.py
 
-from app.predict.ada_model import predict_ada_next_day
 from app.predict.bnb_model import predict_bnb_next_day
 from app.predict.btc_model import predict_next_day as predict_btc_next_day
 from app.predict.doge_model import predict_doge_next_day
@@ -27,11 +26,7 @@ def run_all_predictions():
     except Exception as e:
         logger.error(f"⛔ ETH tahmini hatası: {e}")
 
-    try:
-        predict_ada_next_day()
-        logger.info("✅ ADA tahmini tamamlandı.")
-    except Exception as e:
-        logger.error(f"⛔ ADA tahmini hatası: {e}")
+
 
     try:
         predict_bnb_next_day()

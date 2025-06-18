@@ -1,7 +1,6 @@
 import pandas as pd
 import requests
 import yfinance as yf
-from datetime import datetime
 from app.log_config import logger  # 🔹 Log eklendi
 
 # 🔹 1. BTC verisini Binance'ten çek
