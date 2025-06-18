@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from models import Coin, CoinPrice, CoinPrediction
-from db import get_db
+from app.models import Coin, CoinPrice, CoinPrediction
+from app.db import get_db
 from typing import List
-from orm import CoinSchema, CoinPriceSchema, CoinPredictionSchema
+from app.orm import CoinSchema, CoinPriceSchema, CoinPredictionSchema
 from fastapi.middleware.cors import CORSMiddleware
 from app.log_config import logger  # 🔹 log sistemi eklendi
 
