@@ -408,8 +408,7 @@ body {
     overflow: hidden;
     border-radius: 25px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-    max-width: 800px;     /* ✨ burayı ekle */
-    width: 100%;
+
 }
 
 .video-responsive iframe {
